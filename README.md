@@ -22,6 +22,7 @@
     }
 
 不同样式的view定义不同的ViewType，可以自己增加扩展
+
     public static interface ShowStyle { 
         //样式最大值，要大于所有的样式值 
         int STYLE_MAX_VALUE = 2;
