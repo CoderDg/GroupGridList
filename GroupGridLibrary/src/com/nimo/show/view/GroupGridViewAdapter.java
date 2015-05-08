@@ -137,5 +137,5 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
     
     public abstract View getChildView(View convertView,RowItem item) ;
     
-    public abstract RowItem splitToRowItems(IGroupItem mShowItems, ArrayList<RowItem> rowItems);
+    public abstract RowItem splitToRowItems(IGroupItem groupItem, ArrayList<RowItem> rowItems);
 }

@@ -16,7 +16,7 @@ public class RowItem {
     //该行在分组中的位置 0:start 1：mid 2：end
     private int groupPos;
     
-    //记录group被拆分的row数
+    //记录group被拆分的row数,目前每个组只有第一个RowItem纪录
     private int groupRowCounts;
 
     public ArrayList<IChildItem> getColumnItems() {
