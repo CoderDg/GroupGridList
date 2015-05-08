@@ -56,7 +56,7 @@ public class MyGroupGridViewAdapter extends GroupGridViewAdapter {
         } else {
             holder = (GroupViewHolder) convertView.getTag();
         }
-        holder.titleView.setText(item.getName());
+        holder.titleView.setText(item.getRowInfo());
 
         return convertView;
     }
@@ -75,15 +75,9 @@ public class MyGroupGridViewAdapter extends GroupGridViewAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         ArrayList<IChildItem> childItems = item.getColumnItems();
-        ImageLoader.getInstance().displayImage(childItems.get(0).getImgUrl(), holder.firstImgView,ops);
-        ImageLoader.getInstance().displayImage(childItems.get(1).getImgUrl(), holder.secondImgView,ops);        
+        ImageLoader.getInstance().displayImage(childItems.get(0).getChildInfo(), holder.firstImgView,ops);
+        ImageLoader.getInstance().displayImage(childItems.get(1).getChildInfo(), holder.secondImgView,ops);        
         return convertView;
-    }
-
-    @Override
-    public ArrayList<RowItem> splitToRowItems(ArrayList<IGroupItem> mShowItems) {
-        // TODO Auto-generated method stub
-        return DataUtils.formatData(mShowItems);
     }
 
     static class GroupViewHolder {
@@ -93,5 +87,11 @@ public class MyGroupGridViewAdapter extends GroupGridViewAdapter {
     static class ViewHolder {
         ImageView firstImgView;
         ImageView secondImgView;
+    }
+
+    @Override
+    public RowItem splitToRowItems(IGroupItem groupItem, ArrayList<RowItem> rowItems) {
+        // TODO Auto-generated method stub
+        return DataUtils.formatData(groupItem, rowItems);
     }
 }

@@ -3,11 +3,11 @@ package com.nimo.show.view;
 
 import java.util.ArrayList;
 
-public abstract class IGroupItem implements Cloneable{
+public abstract class IGroupItem{
 
     private ArrayList<IChildItem> childList;
 
-    private String name;
+    private String groupInfo;
     
     public ArrayList<IChildItem> getChildList() {
         return childList;
@@ -17,18 +17,11 @@ public abstract class IGroupItem implements Cloneable{
         this.childList = childList;
     }
 
-    public String getName() {
-        return name;
+    public String getGroupInfo() {
+        return groupInfo;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setGroupInfo(String groupInfo) {
+        this.groupInfo = groupInfo;
     }
-
-    @Override
-    public Object clone() throws CloneNotSupportedException {
-        // TODO Auto-generated method stub
-        return super.clone();
-    }
-
 }

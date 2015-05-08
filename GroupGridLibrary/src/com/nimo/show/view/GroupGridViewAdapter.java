@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public abstract class GroupGridViewAdapter extends BaseAdapter {
 
@@ -17,38 +18,66 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
 
     private ArrayList<RowItem> mRowList;
     private ArrayList<IGroupItem> groupItems;
+    /**
+     * 记录group与分组间的映射，只需要在每组的第一个RowItem中记录该组拆分的row数
+     */
+    protected HashMap<String, RowItem> groupToRowMap;
 
     public GroupGridViewAdapter(Context context, ArrayList<IGroupItem> groups) {
+        groupToRowMap = new HashMap<String, RowItem>();
+        mRowList = new ArrayList<RowItem>();
         groupItems = groups;
-        mRowList = splitToRowItems(groups);
+        splitToRowItems(groups);
     }
 
-    
+    /**
+     * 更新数据
+     * @param mShowItems
+     */
     public void setShowItems(ArrayList<IGroupItem> mShowItems) {
         groupItems = mShowItems;
-        mRowList = splitToRowItems(mShowItems);
+         splitToRowItems(mShowItems);
         notifyDataSetChanged();
     }
     
-    public void addShowItem(IGroupItem groupItem){
+    /**
+     * 添加一组数据
+     * @param groupItem
+     */
+    public synchronized void addGroupItem(IGroupItem groupItem){
         if(groupItem == null){
             return;
         }
-        
-        ArrayList<IGroupItem> items=  new ArrayList<IGroupItem>();
-        items.add(groupItem);
-        ArrayList<RowItem> rowItems = mRowList = splitToRowItems(items);
-        if(rowItems != null && items.size()>0){
-            mRowList.addAll(rowItems);
+        ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
+        RowItem item = splitToRowItems(groupItem, rowItems);
+        groupToRowMap.put(groupItem.getGroupInfo(), item);
+        mRowList.addAll(rowItems);
+    }
+    
+    /**
+     * 删除一组数据
+     * @param groupItem
+     */
+    public synchronized void removeGroupItem(IGroupItem groupItem){
+        if(groupItem == null){
+            return;
         }
-        //需要自己去刷新，因为不清楚会添加几项
+        groupItems.remove(groupItem);
+        RowItem item = groupToRowMap.get(groupItem.getGroupInfo());
+        if(item == null || !mRowList.contains(item)){
+            return;
+        }
+        groupToRowMap.remove(groupItem.getGroupInfo());
+        int index = mRowList.indexOf(item);
+        for (int pos = index+item.getGroupRowCounts()-1; pos >= index; pos--) {
+            mRowList.remove(pos);
+        }
     }
     
     @Override
-    public int getCount() {
+    public synchronized int getCount() {
         if (mRowList == null)
             return 0;
-
         return mRowList.size();
     }
     
@@ -76,7 +105,7 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
 
     @Override
     public int getViewTypeCount() {
-        return 6;// 5+1
+        return ShowStyle.STYLE_MAX_VALUE;// 
     }
 
     @Override
@@ -92,10 +121,21 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
             return getChildView(convertView,item);
         }
     }
+    
+    protected synchronized void splitToRowItems(ArrayList<IGroupItem> groups){
+        if(groups == null){
+            return;
+        }
+        
+        for (IGroupItem groupItem : groups) {
+            addGroupItem(groupItem);
+        }        
+    }
+    
     //获取分组的头部，
     public abstract View getGroupView( View convertView, RowItem item); 
     
     public abstract View getChildView(View convertView,RowItem item) ;
     
-    public abstract ArrayList<RowItem> splitToRowItems(ArrayList<IGroupItem> mShowItems);
+    public abstract RowItem splitToRowItems(IGroupItem mShowItems, ArrayList<RowItem> rowItems);
 }

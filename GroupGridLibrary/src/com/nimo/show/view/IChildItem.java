@@ -2,15 +2,13 @@
 package com.nimo.show.view;
 
 public abstract class IChildItem {
-    private String imgUrl;
+    private String childInfo;
 
-    public String getImgUrl() {
-        return imgUrl;
+    public String getChildInfo() {
+        return childInfo;
     }
 
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
+    public void setChildInfo(String childInfo) {
+        this.childInfo = childInfo;
     }
-
-
 }

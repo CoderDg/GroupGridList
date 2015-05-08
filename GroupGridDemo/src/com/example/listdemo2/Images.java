@@ -123,14 +123,14 @@ public class Images {
         int groupIndex = 0;
         for (int i = 0; i < urls.length; i++) {
             MyChildItem child = new MyChildItem();
-            child.setImgUrl(urls[i]);
+            child.setChildInfo(urls[i]);
             childList.add(child);
 
             if (i == 0 || i == 2 || i == 5 || i == 9 || i == 14 || i == 20 || i == 27 || i == 35
                     || i == urls.length - 1) {
                 groupIndex++;
                 MyGroupItem group = new MyGroupItem();
-                group.setName("第" + groupIndex + "组");
+                group.setGroupInfo("第" + groupIndex + "组");
                 group.setChildList(childList);
                 groupList.add(group);
                 childList = new ArrayList<IChildItem>();

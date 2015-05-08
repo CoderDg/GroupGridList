@@ -1,6 +1,8 @@
 
 package com.nimo.show.view;
 
+import android.R.integer;
+
 import java.util.ArrayList;
 
 public class RowItem {
@@ -9,29 +11,13 @@ public class RowItem {
     
     //子成员列表
     private ArrayList<IChildItem> columnItems;
+
+    private String rowInfo;
+    //该行在分组中的位置 0:start 1：mid 2：end
+    private int groupPos;
     
-    //它所在的组
-    private IGroupItem group;
-
-    private String name;
-    //该行在分组中的索引
-    private int groupIndex;//0:start  1:mid 2:end    
-    
-    public IGroupItem getGroupItem() {
-        return group;
-    }
-
-    public void setGroupItem(IGroupItem group) {
-        this.group = group;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
+    //记录group被拆分的row数
+    private int groupRowCounts;
 
     public ArrayList<IChildItem> getColumnItems() {
         return columnItems;
@@ -49,12 +35,28 @@ public class RowItem {
         this.showStyle = showStyle;
     }
 
-    public int getGroupIndex() {
-        return groupIndex;
+    public int getGroupPos() {
+        return groupPos;
     }
 
-    public void setGroupIndex(int groupIndex) {
-        this.groupIndex = groupIndex;
+    public void setGroupPos(int groupPos) {
+        this.groupPos = groupPos;
+    }
+
+    public int getGroupRowCounts() {
+        return groupRowCounts;
+    }
+
+    public void setGroupRowCounts(int groupRowCounts) {
+        this.groupRowCounts = groupRowCounts;
+    }
+
+    public String getRowInfo() {
+        return rowInfo;
+    }
+
+    public void setRowInfo(String rowInfo) {
+        this.rowInfo = rowInfo;
     }
 
     public static interface ShowStyle {
