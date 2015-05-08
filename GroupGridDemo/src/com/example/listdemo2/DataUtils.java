@@ -37,7 +37,6 @@ class DataUtils {
                 }                      
             }
             
-            groupItem.setGroupRowCounts(rowList.size());            
             return groupItem;
     }
 

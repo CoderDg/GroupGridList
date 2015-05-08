@@ -50,6 +50,7 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
         }
         ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
         RowItem item = splitToRowItems(groupItem, rowItems);
+        item.setGroupRowCounts(rowItems.size());
         groupToRowMap.put(groupItem.getGroupInfo(), item);
         mRowList.addAll(rowItems);
     }
@@ -136,6 +137,11 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
     public abstract View getGroupView( View convertView, RowItem item); 
     
     public abstract View getChildView(View convertView,RowItem item) ;
-    
+    /**
+     * 拆分Group为多个行RowItem
+     * @param groupItem
+     * @param rowItems
+     * @return 第一项RowItem，里面记录了该组被拆分的行数
+     */
     public abstract RowItem splitToRowItems(IGroupItem groupItem, ArrayList<RowItem> rowItems);
 }

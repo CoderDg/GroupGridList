@@ -4,6 +4,8 @@
 
 分组接口已定义出来，分组你自己可以控制
 
+	public abstract RowItem splitToRowItems(IGroupItem groupItem, ArrayList<RowItem> rowItems);
+	
     /**
      * 如果类型比较多,需要复写;
      */
