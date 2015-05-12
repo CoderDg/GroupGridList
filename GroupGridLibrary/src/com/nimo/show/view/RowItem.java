@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class RowItem {
     // 图片组合样式
-    private int showStyle;
+    private ShowStyle showStyle;
     
     //子成员列表
     private ArrayList<IChildItem> columnItems;
@@ -27,11 +27,11 @@ public class RowItem {
         this.columnItems = columnItem;
     }
 
-    public int getShowStyle() {
+    public ShowStyle getShowStyle() {
         return showStyle;
     }
 
-    public void setShowStyle(int showStyle) {
+    public void setShowStyle(ShowStyle showStyle) {
         this.showStyle = showStyle;
     }
 
@@ -59,14 +59,4 @@ public class RowItem {
         this.rowInfo = rowInfo;
     }
 
-    public static interface ShowStyle {
-        //样式最大值，要大于所有的样式值
-        int STYLE_MAX_VALUE = 2;
-        
-        // 0:group
-        int STYLE_GROUP = 0;
-        // 1:2个个长图
-        int STYLE_TWO_SQUARE_IMG = 1;
-
-    }
 }

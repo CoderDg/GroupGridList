@@ -1,8 +1,6 @@
 
 package com.nimo.show.view;
 
-import com.nimo.show.view.RowItem.ShowStyle;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,11 +20,11 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
      * 记录group与分组间的映射，只需要在每组的第一个RowItem中记录该组拆分的row数
      */
     protected HashMap<String, RowItem> groupToRowMap;
-
+    
     public GroupGridViewAdapter(Context context, ArrayList<IGroupItem> groups) {
         groupToRowMap = new HashMap<String, RowItem>();
         mRowList = new ArrayList<RowItem>();
-        groupItems = groups;
+        groupItems = new ArrayList<IGroupItem>();
         splitToRowItems(groups);
     }
 
@@ -35,7 +33,6 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
      * @param mShowItems
      */
     public void setShowItems(ArrayList<IGroupItem> groups) {
-        groupItems = groups;
          splitToRowItems(groups);
         notifyDataSetChanged();
     }
@@ -125,7 +122,7 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
             return -1;
         }
         RowItem item = mRowList.get(position);
-        return item.getShowStyle();
+        return item.getShowStyle().getStyleValue();
     }
 
     @Override
@@ -140,7 +137,7 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
         }
 
         RowItem item = mRowList.get(position);
-        if (item.getShowStyle() == ShowStyle.STYLE_GROUP) {
+        if (item.getShowStyle().getStyleValue() == ShowStyle.STYLE_GROUP) {
             return getGroupView(convertView,item);
         } else {
             return getChildView(convertView,item);
