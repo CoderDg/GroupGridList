@@ -34,9 +34,9 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
      * 更新数据
      * @param mShowItems
      */
-    public void setShowItems(ArrayList<IGroupItem> mShowItems) {
-        groupItems = mShowItems;
-         splitToRowItems(mShowItems);
+    public void setShowItems(ArrayList<IGroupItem> groups) {
+        groupItems = groups;
+         splitToRowItems(groups);
         notifyDataSetChanged();
     }
     
@@ -53,6 +53,30 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
         item.setGroupRowCounts(rowItems.size());
         groupToRowMap.put(groupItem.getGroupInfo(), item);
         mRowList.addAll(rowItems);
+        groupItems.add(groupItem);
+    }
+    
+    /**
+     * 添加一组数据到指定位置
+     * @param groupItem
+     * @param groupIndex
+     */
+    public synchronized void addGroupItem(IGroupItem groupItem, int groupIndex){
+        if(groupItem == null){
+            return;
+        }
+        ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
+        RowItem item = splitToRowItems(groupItem, rowItems);
+        item.setGroupRowCounts(rowItems.size());
+        groupToRowMap.put(groupItem.getGroupInfo(), item);
+        int rowIndex = mRowList.size();
+        if(groupIndex == 0){
+            rowIndex = 0;
+        }else if(groupIndex < groupItems.size()){
+            RowItem nextItem = groupToRowMap.get(groupItems.get(groupIndex).getGroupInfo());
+            rowIndex = mRowList.indexOf(nextItem)-1;
+        }
+        mRowList.addAll(rowIndex, rowItems);
     }
     
     /**
