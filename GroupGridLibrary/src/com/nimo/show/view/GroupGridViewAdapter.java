@@ -2,6 +2,7 @@
 package com.nimo.show.view;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
     private ArrayList<IGroupItem> groupItems;
     /**
      * 记录group与分组间的映射，只需要在每组的第一个RowItem中记录该组拆分的row数
+     * 如果要动态删除和更新数据，要求IGroupItem的groupInfo不能为空
      */
     protected HashMap<String, RowItem> groupToRowMap;
     
@@ -26,6 +28,10 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
         mRowList = new ArrayList<RowItem>();
         groupItems = new ArrayList<IGroupItem>();
         splitToRowItems(groups);
+    }
+    
+    public GroupGridViewAdapter(Context context){
+        
     }
 
     /**
@@ -48,7 +54,9 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
         ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
         RowItem item = splitToRowItems(groupItem, rowItems);
         item.setGroupRowCounts(rowItems.size());
-        groupToRowMap.put(groupItem.getGroupInfo(), item);
+        if(TextUtils.isEmpty(groupItem.getGroupInfo())){
+            groupToRowMap.put(groupItem.getGroupInfo(), item);
+        }
         mRowList.addAll(rowItems);
         groupItems.add(groupItem);
     }
@@ -65,7 +73,9 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
         ArrayList<RowItem> rowItems = new ArrayList<RowItem>();
         RowItem item = splitToRowItems(groupItem, rowItems);
         item.setGroupRowCounts(rowItems.size());
-        groupToRowMap.put(groupItem.getGroupInfo(), item);
+        if(TextUtils.isEmpty(groupItem.getGroupInfo())){
+            groupToRowMap.put(groupItem.getGroupInfo(), item);
+        }
         int rowIndex = mRowList.size();
         if(groupIndex == 0){
             rowIndex = 0;
@@ -112,6 +122,10 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
+    
+    public int getItemIndex(RowItem rowItem){
+        return mRowList.indexOf(rowItem);
+    }
 
     /**
      * 如果类型比较多,需要复写;
@@ -138,9 +152,9 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
 
         RowItem item = mRowList.get(position);
         if (item.getShowStyle().getStyleValue() == ShowStyle.STYLE_GROUP) {
-            return getGroupView(convertView,item);
+            return getGroupView(position,convertView,item);
         } else {
-            return getChildView(convertView,item);
+            return getChildView(position, convertView,item);
         }
     }
     
@@ -155,9 +169,9 @@ public abstract class GroupGridViewAdapter extends BaseAdapter {
     }
     
     //获取分组的头部，
-    public abstract View getGroupView( View convertView, RowItem item); 
+    public abstract View getGroupView( int position, View convertView, RowItem item); 
     
-    public abstract View getChildView(View convertView,RowItem item) ;
+    public abstract View getChildView(int position, View convertView,RowItem item) ;
     /**
      * 拆分Group为多个行RowItem
      * @param groupItem

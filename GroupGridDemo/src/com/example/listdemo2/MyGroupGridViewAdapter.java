@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
+import android.R.integer;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -46,7 +47,7 @@ public class MyGroupGridViewAdapter extends GroupGridViewAdapter {
 
 
     @Override
-    public View getGroupView(View convertView, RowItem item) {
+    public View getGroupView(int pos, View convertView, RowItem item) {
         GroupViewHolder holder = null;
         if (convertView == null) {
             convertView = mInflater.inflate(R.layout.group_title_layout, null);
@@ -63,7 +64,7 @@ public class MyGroupGridViewAdapter extends GroupGridViewAdapter {
     
 
     @Override
-    public View getChildView(View convertView, RowItem item) {
+    public View getChildView(int pos, View convertView, RowItem item) {
         ViewHolder holder = null;
         if(convertView == null){
             convertView = mInflater.inflate(R.layout.child_pic_layout, null);
